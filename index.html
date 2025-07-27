@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>API Key Viewer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      #apiKeyDisplay {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 6px;
+        word-break: break-all;
+      }
+      button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Your API Key:</h2>
+    <p id="apiKeyDisplay">Loading...</p>
+    <button onclick="copyKey()">Copy</button>
+
+    <script>
+      // Get the pathname from the URL, e.g., /ABC123XYZ
+      const path = window.location.pathname;
+
+      // Remove the leading slash and extract the key
+      const apiKey = path.length > 1 ? path.substring(1) : 'No API key in URL';
+
+      // Show the key
+      document.getElementById('apiKeyDisplay').innerText = apiKey;
+
+      // Copy function
+      function copyKey() {
+        navigator.clipboard.writeText(apiKey).then(() => {
+          alert("API key copied to clipboard!");
+        }).catch(err => {
+          alert("Failed to copy: " + err);
+        });
+      }
+    </script>
+  </body>
+</html>
