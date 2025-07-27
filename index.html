@@ -11,7 +11,8 @@
         background-color: #f0f0f0;
         padding: 10px;
         border-radius: 6px;
-        word-break: break-all;
+        word-break: break-word;
+        max-width: 100%;
       }
       button {
         margin-top: 10px;
@@ -33,12 +34,20 @@
     <button onclick="copyKey()">Copy</button>
 
     <script>
-      const path = window.location.pathname;
-      const segments = path.split('/').filter(Boolean);
-      const apiKey = segments[segments.length - 1] || 'No API key found in URL';
-      document.getElementById('apiKeyDisplay').innerText = apiKey;
+      // Read the ?key= from URL
+      const params = new URLSearchParams(window.location.search);
+      const apiKey = params.get("key");
+
+      const display = document.getElementById("apiKeyDisplay");
+
+      if (apiKey) {
+        display.innerText = apiKey;
+      } else {
+        display.innerText = "No API key found in URL. Use ?key=YOUR_KEY";
+      }
 
       function copyKey() {
+        if (!apiKey) return alert("No key to copy");
         navigator.clipboard.writeText(apiKey).then(() => {
           alert("API key copied to clipboard!");
         }).catch(err => {
